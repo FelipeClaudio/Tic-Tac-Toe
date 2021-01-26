@@ -1,0 +1,60 @@
+* {
+    box-sizing: border-box;
+}
+
+.game-grid-container {
+    border: 5px solid black;
+    display: grid;
+    width: 610px;
+    grid-template-columns: repeat(3, 200px);
+    grid-template-rows: repeat(3, 200px);
+    color: black;
+}
+
+.game-grid {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: 3px solid rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vertical-end-game-line {
+    border-left: 6px solid red;
+    top: 50px;
+    position: absolute;
+    height: 595px;
+}
+
+.horizontal-end-game-line {
+    border-top: 6px solid red;
+    left: 2.2vw;
+    width: 595px;
+    position: absolute;
+}
+
+.diagonal-end-game-line {
+    border-top: 6px solid red;
+    left: 18px;
+    width: 840px;
+    top: 50px;
+    position: absolute;
+    transform: rotate(45deg);
+    transform-origin: 0% 0%;
+}
+
+.player-symbol-x {
+    font-size: 60px;
+    color: royalblue;
+}
+
+.player-symbol-o {
+    font-size: 60px;
+    color: chartreuse;
+}
+
+.game-info {
+    font-family: Arial, Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 30px;
+    color: red;
+}
