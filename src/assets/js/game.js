@@ -14,7 +14,7 @@ export default class Game {
 
         this.currentPlayerIndex = Math.round(Math.random())
 
-        this.gameUi.setGameInfo(`É a vez do player "${this.players[this.currentPlayerIndex].getPlayerSymbol()}"`)
+        this.gameUi.setGameInfo(`It is player "${this.players[this.currentPlayerIndex].getPlayerSymbol()}" turn`)
 
         this.winningCombinantions = [
             {sequence: [1, 2, 3], orientation: sequenceOrientationEnum.horizontal},
@@ -37,14 +37,14 @@ export default class Game {
         const gameHasAWinner = this.verifyVictoryCondition(lastPlayer.getMarkedPositions())
         if (gameHasAWinner){
             this.gameUi.drawEndGameLine(this.winnerCombination)
-            this.gameUi.setGameInfo(`Fim de Jogo! O player "${symbol}" é o vencedor`)
+            this.gameUi.setGameInfo(`Game over! Player "${symbol}" won!`)
         }
         else if (this.round == 9){
-            this.gameUi.setGameInfo("Empate!")
+            this.gameUi.setGameInfo("Draw!")
         }
         else{
             this.updateCurrentPlayer()
-            this.gameUi.setGameInfo(`É a vez do player "${this.players[this.currentPlayerIndex].getPlayerSymbol()}"`)
+            this.gameUi.setGameInfo(`It is player "${this.players[this.currentPlayerIndex].getPlayerSymbol()}" turn`)
             this.round++
         }
     }
