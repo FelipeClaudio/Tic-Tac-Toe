@@ -1,5 +1,5 @@
 {
-  "name": "jogo-da-velha",
+  "name": "tic-tac-toe",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Felipe Santos <felipesantos956@poli.ufjr.br>",
