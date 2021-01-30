@@ -15,5 +15,9 @@ $button-height: 60px;
     height: $button-height;
     border-radius: 5px;
     left: calc((#{$board-dimension-size} - #{$button-width}) / 2 + 15px);
-    top: calc(#{$board-dimension-size} + #{$top-spacing} + #{$border-size} + 10px)
+    top: calc(#{$board-dimension-size} + #{$top-spacing} + #{$border-size} + 60px)
+}
+
+.restart-button:hover {
+    background-color:#777777;
 }

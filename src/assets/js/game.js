@@ -34,7 +34,7 @@ export default class Game {
         this.gameHistory = {
             playerXVictories : 0,
             playerOVictories : 0,
-            draw : 0,
+            draws : 0,
         }
     }
 
@@ -55,15 +55,23 @@ export default class Game {
                 this.gameHistory.playerXVictories++
             else
                 this.gameHistory.playerOVictories++
+
+            this.isGameFinished = true
         }
         else if (this.round == 9){
             this.gameUi.setGameInfo("Draw!")
-            this.gameHistory.draw++
+            this.gameHistory.draws++
+
+            this.isGameFinished = true
         }
         else{
             this.#updateCurrentPlayer()
             this.gameUi.setGameInfo(`It is player "${this.players[this.currentPlayerIndex].getPlayerSymbol()}" turn`)
             this.round++
+        }
+
+        if (this.isGameFinished){
+            this.gameUi.setGameHistory(this.gameHistory)
         }
     }
 
@@ -95,18 +103,21 @@ export default class Game {
     }
 
     handleElementOnClickEvent = (element) => {
-        const currentPlayer = this.#getCurrentPlayer()
-        const symbol = currentPlayer.getPlayerSymbol()
-
-        element.innerHTML = symbol
-        element.classList.add(`player-symbol-${symbol.toLowerCase()}`)
-
-        this.#updateStatus(symbol, element.id)  
+        if (!this.isGameFinished){
+            const currentPlayer = this.#getCurrentPlayer()
+            const symbol = currentPlayer.getPlayerSymbol()
+    
+            element.innerHTML = symbol
+            element.classList.add(`player-symbol-${symbol.toLowerCase()}`)
+    
+            this.#updateStatus(symbol, element.id)  
+        }
     }
 
     #handleRestartGameEvent = () => {
         this.markedPositions = []
         this.round = 1
+        this.isGameFinished = false
         this.gameUi.cleanGameBoard()
         this.#updateCurrentPlayer()
         console.log(this.gameHistory);
