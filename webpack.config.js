@@ -20,9 +20,12 @@ module.exports = {
         minimizer: [
             new UglifyJsPlugin({
                 cache: true,
-                parallel: true
+                parallel: true,
+                sourceMap: true
             }),
-            new OptimizeCssAssetsPlugin({})
+            new OptimizeCssAssetsPlugin({
+                sourceMap: true
+            })
         ]
     },
     module: {

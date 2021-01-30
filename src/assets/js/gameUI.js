@@ -1,4 +1,5 @@
 import Element from "./element";
+import GameHistoryDisplay from "./gameHistoryDisplay";
 import RestartButton from "./restartButton";
 import { sequenceOrientationEnum } from "./sequenceOrientationEnum";
 
@@ -21,8 +22,16 @@ export default class GameUi {
 
         this.restartGameButton = new RestartButton(handleRestartGameEvent)
 
+        this.gameHistoryDisplay = new GameHistoryDisplay()
+        this.gameHistoryDisplay.setGameHistory({
+            playerXVictories : 0,
+            playerOVictories : 0,
+            draws : 0,
+        })
+
         document.body.appendChild(this.gameInfo)
         document.body.appendChild(this.gridContainer)
+        document.body.appendChild(this.gameHistoryDisplay.getHtml())
         document.body.appendChild(this.restartGameButton.getHtml())
     }
 
@@ -86,6 +95,10 @@ export default class GameUi {
         this.#removeLineOrientationFromBoard('vertical');
         this.#removeLineOrientationFromBoard('horizontal');
         this.#removeLineOrientationFromBoard('diagonal');
+    }
+
+    setGameHistory = (newGameHistory) => {
+        this.gameHistoryDisplay.setGameHistory(newGameHistory)
     }
 
     #removeSymbolFromBoard = (symbol) => {
