@@ -4,9 +4,11 @@ import { sequenceOrientationEnum } from "./sequenceOrientationEnum";
 
 export default class Game {
     constructor(){
-        this.gameUi = new GameUi(this.handleElementOnClickEvent)
+        this.gameUi = new GameUi(this.handleElementOnClickEvent, this.#handleRestartGameEvent)
         
         this.players = [new Player("X"), new Player("O")]
+
+        this.markedPositions = []
 
         this.isGameFinished = false
 
@@ -28,34 +30,50 @@ export default class Game {
         ]
 
         this.winnerCombination = []
+
+        this.gameHistory = {
+            playerXVictories : 0,
+            playerOVictories : 0,
+            draw : 0,
+        }
     }
 
-    updateStatus = (symbol, position) => {
-        const lastPlayer = this.players.filter(player => player.getPlayerSymbol() == symbol)[0]
-        
-        lastPlayer.setMarkedPosition(Number(position))
-        const gameHasAWinner = this.verifyVictoryCondition(lastPlayer.getMarkedPositions())
+    #updateStatus = (symbol, position) => {        
+        this.markedPositions.push( 
+        { 
+            playerId: symbol, 
+            position: Number(position)
+        })
+
+        const playerPositions = this.markedPositions.filter(p => p.playerId === symbol).map(p => p.position)
+        const gameHasAWinner = this.#verifyVictoryCondition(playerPositions)
         if (gameHasAWinner){
             this.gameUi.drawEndGameLine(this.winnerCombination)
             this.gameUi.setGameInfo(`Game over! Player "${symbol}" won!`)
+
+            if (symbol === "X")
+                this.gameHistory.playerXVictories++
+            else
+                this.gameHistory.playerOVictories++
         }
         else if (this.round == 9){
             this.gameUi.setGameInfo("Draw!")
+            this.gameHistory.draw++
         }
         else{
-            this.updateCurrentPlayer()
+            this.#updateCurrentPlayer()
             this.gameUi.setGameInfo(`It is player "${this.players[this.currentPlayerIndex].getPlayerSymbol()}" turn`)
             this.round++
         }
     }
 
-    verifyVictoryCondition = (markedPositions) => {
+    #verifyVictoryCondition = (markedPositions) => {
         let gameHasAWinner = false
 
         this.winningCombinantions.forEach(combination => {
             const matchedVictoryCondition = markedPositions.filter(position => combination.sequence.includes(position))
             
-            // It needs to have all three element to consider a victory
+            // It needs to have all three element to be consider as a victory
             if (matchedVictoryCondition.length === 3){
                 this.winnerCombination = combination
                 gameHasAWinner = true
@@ -65,24 +83,32 @@ export default class Game {
         return gameHasAWinner
     }
 
-    updateCurrentPlayer = () => {
+    #updateCurrentPlayer = () => {
         if (this.round >= 1){
             this.currentPlayerIndex = Math.abs(1 - this.currentPlayerIndex)
             this.players[this.currentPlayerIndex]
         }
     }
 
-    getCurrentPlayer = () => {
+    #getCurrentPlayer = () => {
         return this.players[this.currentPlayerIndex]
     }
 
     handleElementOnClickEvent = (element) => {
-        const currentPlayer = this.getCurrentPlayer()
+        const currentPlayer = this.#getCurrentPlayer()
         const symbol = currentPlayer.getPlayerSymbol()
 
         element.innerHTML = symbol
         element.classList.add(`player-symbol-${symbol.toLowerCase()}`)
 
-        this.updateStatus(symbol, element.id)  
+        this.#updateStatus(symbol, element.id)  
+    }
+
+    #handleRestartGameEvent = () => {
+        this.markedPositions = []
+        this.round = 1
+        this.gameUi.cleanGameBoard()
+        this.#updateCurrentPlayer()
+        console.log(this.gameHistory);
     }
 }

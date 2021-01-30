@@ -1,6 +1,7 @@
 $board-dimension-size: 595px;
 $top-spacing: 50px;
 $player-symbol-font-size: 60px;
+$border-size: 5px;
 
 * {
     box-sizing: border-box;
@@ -9,3 +10,4 @@ $player-symbol-font-size: 60px;
 @import 'gameUI.scss';
 @import 'player.scss';
 @import 'element.scss';
+@import 'restartButton.scss';

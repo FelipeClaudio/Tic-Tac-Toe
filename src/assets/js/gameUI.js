@@ -1,8 +1,9 @@
 import Element from "./element";
+import RestartButton from "./restartButton";
 import { sequenceOrientationEnum } from "./sequenceOrientationEnum";
 
 export default class GameUi {
-    constructor(handleElementOnClickEvent){
+    constructor(handleElementOnClickEvent, handleRestartGameEvent){
         this.gameInfo = document.createElement('div')
         this.gameInfo.classList.add('game-info')
         
@@ -18,8 +19,11 @@ export default class GameUi {
             this.gridContainer.appendChild(element.getHTML())
         }
 
+        this.restartGameButton = new RestartButton(handleRestartGameEvent)
+
         document.body.appendChild(this.gameInfo)
         document.body.appendChild(this.gridContainer)
+        document.body.appendChild(this.restartGameButton.getHtml())
     }
 
     drawEndGameLine = (winningCombination) => {
@@ -27,20 +31,20 @@ export default class GameUi {
 
         switch (winningCombination.orientation) {
             case sequenceOrientationEnum.horizontal:
-                this.createHorizontalLine(firstElement)
+                this.#createHorizontalLine(firstElement)
                 break;          
             case sequenceOrientationEnum.vertical:
-                this.createVerticalLine(firstElement)
+                this.#createVerticalLine(firstElement)
                 break
             case sequenceOrientationEnum.diagonal:
-                this.createDiagonalLine(firstElement)
+                this.#createDiagonalLine(firstElement)
                 break
             default:
                 break;
         }
     }
 
-    createVerticalLine = (columnId) =>{
+    #createVerticalLine = (columnId) =>{
         const line = document.createElement('div')
         line.classList.add('vertical-end-game-line')
         line.style.left = `${(columnId - 1) * 200 + 110}px`
@@ -48,7 +52,7 @@ export default class GameUi {
         this.gridContainer.appendChild(line)
     }
 
-    createHorizontalLine = (rowId) => {
+    #createHorizontalLine = (rowId) => {
         // Row first elements can be 1, 4 and 7
         const newRowId = 1 + Math.floor(rowId / 3)
 
@@ -59,7 +63,7 @@ export default class GameUi {
         this.gridContainer.appendChild(line)
     }
 
-    createDiagonalLine = (firstElement) => {
+    #createDiagonalLine = (firstElement) => {
         const line = document.createElement('div')
         line.classList.add('diagonal-end-game-line')
 
@@ -74,5 +78,29 @@ export default class GameUi {
 
     setGameInfo = (text) => {
         this.gameInfo.innerHTML = text
+    }
+
+    cleanGameBoard = () => {
+        this.#removeSymbolFromBoard('x');
+        this.#removeSymbolFromBoard('o');
+        this.#removeLineOrientationFromBoard('vertical');
+        this.#removeLineOrientationFromBoard('horizontal');
+        this.#removeLineOrientationFromBoard('diagonal');
+    }
+
+    #removeSymbolFromBoard = (symbol) => {
+        const playerSymbolClass = `player-symbol-${symbol.toLowerCase()}`
+        console.log("playerSymbolClass: ", playerSymbolClass);
+        const playerMarks = Array.from(document.getElementsByClassName(playerSymbolClass))
+        playerMarks.forEach(p => 
+            {
+                p.classList.remove(playerSymbolClass)
+                p.textContent = ""
+            })
+    }
+
+    #removeLineOrientationFromBoard = (lineOrientation) => {
+        const lineClass = `${lineOrientation}-end-game-line`
+        Array.from(document.getElementsByClassName(lineClass)).map(x => x.classList.remove(lineClass))
     }
 }

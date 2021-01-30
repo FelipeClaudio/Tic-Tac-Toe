@@ -1,5 +1,5 @@
 .game-grid-container {
-    border: 5px solid black;
+    border: $border-size solid black;
     display: grid;
     width: 610px;
     grid-template-columns: repeat(3, 200px);
