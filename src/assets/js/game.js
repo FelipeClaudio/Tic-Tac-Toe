@@ -8,6 +8,8 @@ export default class Game {
         
         this.players = [new Player("X"), new Player("O")]
 
+        this.markedPositions = []
+
         this.isGameFinished = false
 
         this.round = 1
@@ -33,8 +35,16 @@ export default class Game {
     updateStatus = (symbol, position) => {
         const lastPlayer = this.players.filter(player => player.getPlayerSymbol() == symbol)[0]
         
-        lastPlayer.setMarkedPosition(Number(position))
-        const gameHasAWinner = this.verifyVictoryCondition(lastPlayer.getMarkedPositions())
+        this.markedPositions.push( 
+        { 
+            playerId: symbol, 
+            position: Number(position)
+        })
+
+        console.log("markedPositions: ", this.markedPositions);
+        const playerPositions = this.markedPositions.filter(p => p.playerId === symbol).map(p => p.position)
+        console.log("playerPositions: ", playerPositions);
+        const gameHasAWinner = this.verifyVictoryCondition(playerPositions)
         if (gameHasAWinner){
             this.gameUi.drawEndGameLine(this.winnerCombination)
             this.gameUi.setGameInfo(`Game over! Player "${symbol}" won!`)
@@ -55,7 +65,7 @@ export default class Game {
         this.winningCombinantions.forEach(combination => {
             const matchedVictoryCondition = markedPositions.filter(position => combination.sequence.includes(position))
             
-            // It needs to have all three element to consider a victory
+            // It needs to have all three element to be consider as a victory
             if (matchedVictoryCondition.length === 3){
                 this.winnerCombination = combination
                 gameHasAWinner = true
@@ -84,5 +94,9 @@ export default class Game {
         element.classList.add(`player-symbol-${symbol.toLowerCase()}`)
 
         this.updateStatus(symbol, element.id)  
+    }
+
+    restartGame = () => {
+
     }
 }
