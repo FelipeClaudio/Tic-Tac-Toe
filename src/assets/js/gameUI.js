@@ -114,6 +114,6 @@ export default class GameUi {
 
     #removeLineOrientationFromBoard = (lineOrientation) => {
         const lineClass = `${lineOrientation}-end-game-line`
-        Array.from(document.getElementsByClassName(lineClass)).map(x => x.classList.remove(lineClass))
+        Array.from(document.getElementsByClassName(lineClass)).forEach(x => x.classList.remove(lineClass))
     }
 }

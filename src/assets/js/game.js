@@ -94,7 +94,6 @@ export default class Game {
     #updateCurrentPlayer = () => {
         if (this.round >= 1){
             this.currentPlayerIndex = Math.abs(1 - this.currentPlayerIndex)
-            this.players[this.currentPlayerIndex]
         }
     }
 
