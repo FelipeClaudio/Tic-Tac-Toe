@@ -14,7 +14,7 @@ describe("Restart button creation creation", () => {
     })
 })
 
-describe("OnClick even handling", () => {
+describe("On click even handling", () => {
     test("It should call passed function", () => {
         const onClickHandler = jest.fn()
         const restartButton = new RestartButton(onClickHandler)

@@ -17,7 +17,7 @@ export default class GameUi {
             const element = new Element(index + 1, this.handleElementOnClickEvent)
 
             element.setPlayerMark("")
-            this.gridContainer.appendChild(element.getHTML())
+            this.gridContainer.appendChild(element.getHtml())
         }
 
         this.restartGameButton = new RestartButton(handleRestartGameEvent)

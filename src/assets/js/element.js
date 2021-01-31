@@ -8,7 +8,7 @@ export default class Element {
         this.handleElementOnClickEvent = handleElementOnClickEvent
     }
 
-    getHTML = () => {
+    getHtml = () => {
         return this.element
     }
 
