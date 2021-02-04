@@ -1,7 +1,7 @@
 import Element from "./element";
 import GameHistoryDisplay from "./gameHistoryDisplay";
 import RestartButton from "./restartButton";
-import { sequenceOrientationEnum } from "./sequenceOrientationEnum";
+import { sequenceOrientationEnum } from "../enums/sequenceOrientationEnum";
 
 export default class GameUi {
   constructor(handleElementOnClickEvent, handleRestartGameEvent) {
@@ -16,7 +16,6 @@ export default class GameUi {
     for (let index = 0; index < 9; index++) {
       const element = new Element(index + 1, this.handleElementOnClickEvent);
 
-      element.setPlayerMark("");
       this.gridContainer.appendChild(element.getHtml());
     }
 

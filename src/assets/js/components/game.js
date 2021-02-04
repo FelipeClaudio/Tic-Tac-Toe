@@ -1,6 +1,6 @@
 import GameUi from "./gameUI";
 import Player from "./player";
-import { sequenceOrientationEnum } from "./sequenceOrientationEnum";
+import { sequenceOrientationEnum } from "../enums/sequenceOrientationEnum";
 
 export default class Game {
   constructor() {

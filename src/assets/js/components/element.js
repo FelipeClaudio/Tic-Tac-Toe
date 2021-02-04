@@ -13,7 +13,6 @@ export default class Element {
     this.element = document.createElement("div");
     this.element.classList.add("game-grid");
     this.element.id = id;
-    this.element.innerHTML = id;
     this.element.onclick = this.onClickEvent;
     this.handleElementOnClickEvent = handleElementOnClickEvent;
   }
