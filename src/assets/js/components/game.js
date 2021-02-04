@@ -25,7 +25,7 @@ export default class Game {
       ].getPlayerSymbol()}" turn`
     );
 
-    this.winningCombinantions = [
+    this.winningCombinations = [
       { sequence: [1, 2, 3], orientation: sequenceOrientationEnum.horizontal },
       { sequence: [4, 5, 6], orientation: sequenceOrientationEnum.horizontal },
       { sequence: [7, 8, 9], orientation: sequenceOrientationEnum.horizontal },
@@ -86,7 +86,7 @@ export default class Game {
   #verifyVictoryCondition = (markedPositions) => {
     let gameHasAWinner = false;
 
-    this.winningCombinantions.forEach((combination) => {
+    this.winningCombinations.forEach((combination) => {
       const matchedVictoryCondition = markedPositions.filter((position) =>
         combination.sequence.includes(position)
       );
