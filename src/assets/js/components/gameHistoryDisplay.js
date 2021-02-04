@@ -1,5 +1,5 @@
 export default class GameHistoryDisplay {
-    constructor(handleRestartGameEvent){
+    constructor(){
         this.gameHistoryDisplay = document.createElement('div')
         this.gameHistoryDisplay.classList.add('game-history-display')
     }
