@@ -16,9 +16,7 @@ describe("Restart button creation creation", () => {
     "it should only allow functions as parameter'.",
     (invalidOnclickHandler) => {
       // Arrange & Act
-      const act = () => {
-        new RestartButton(invalidOnclickHandler);
-      };
+      const act = () => new RestartButton(invalidOnclickHandler);
 
       // Assert
       expect(act).toThrow(TypeError);

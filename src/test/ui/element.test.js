@@ -16,9 +16,7 @@ describe("Element creation", () => {
     "It should not create element if id is not contained in [0, 9] interval.",
     (playerId) => {
       // Arrange & Act
-      const act = () => {
-        new Element(playerId, jest.fn());
-      };
+      const act = () => new Element(playerId, jest.fn());
 
       // Assert
       expect(act).toThrow(TypeError);
@@ -29,9 +27,7 @@ describe("Element creation", () => {
     "It should not create element if it is not an integer.",
     (playerId) => {
       // Arrange & Act
-      const act = () => {
-        new Element(playerId, jest.fn());
-      };
+      const act = () => new Element(playerId, jest.fn());
 
       // Assert
       expect(act).toThrow(TypeError);

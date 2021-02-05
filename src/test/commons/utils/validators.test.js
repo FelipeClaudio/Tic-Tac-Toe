@@ -17,9 +17,7 @@ describe("Validate Function", () => {
     "It should throw exception when argument is not a function.",
     (arg) => {
       // Act
-      const act = () => {
-        validateFunction(arg);
-      };
+      const act = () => validateFunction(arg);
 
       // Assert
       expect(act).toThrow(TypeError);

@@ -16,9 +16,7 @@ describe("Player creation", () => {
     "it should not allow symbols different from 'X' and 'O'.",
     (playerSymbol) => {
       // Arrange & Act
-      const act = () => {
-        new Player(playerSymbol);
-      };
+      const act = () => new Player(playerSymbol);
 
       // Assert
       expect(act).toThrow(TypeError);
