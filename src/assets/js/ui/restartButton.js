@@ -1,4 +1,4 @@
-import { validateFunction } from "../utils/validators";
+import { validateFunction } from "../commons/utils/validators";
 
 export default class RestartButton {
   constructor(handleRestartGameEvent) {

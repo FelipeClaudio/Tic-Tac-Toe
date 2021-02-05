@@ -1,4 +1,4 @@
-import Player from "../../assets/js/components/player";
+import Player from "../../assets/js/domain/player";
 
 describe("Player creation", () => {
   test.each(["X", "O", "x", "o"])(

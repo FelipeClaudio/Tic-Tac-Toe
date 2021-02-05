@@ -1,5 +1,5 @@
-import { validPlayerSymbols } from "../constants/symbols";
-import { validateString } from "../utils/validators";
+import { validPlayerSymbols } from "../commons/constants/symbols";
+import { validateString } from "../commons/utils/validators";
 
 export default class Player {
   constructor(symbol) {

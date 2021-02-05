@@ -1,4 +1,4 @@
-import RestartButton from "../../assets/js/components/restartButton";
+import RestartButton from "../../assets/js/ui/restartButton";
 
 describe("Restart button creation creation", () => {
   test("It should create correct button", () => {

@@ -2,7 +2,7 @@ import {
   validateFunction,
   validateInteger,
   validateString,
-} from "../../assets/js/utils/validators";
+} from "../../../assets/js/commons/utils/validators";
 
 describe("Validate Function", () => {
   test("It should not throw exception when valid function is provided.", () => {

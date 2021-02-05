@@ -1,4 +1,4 @@
-import Element from "../../assets/js/components/element";
+import Element from "../../assets/js/ui/element";
 
 describe("Element creation", () => {
   test.each([1, 2, 9])("it should create valid element.", (playerId) => {

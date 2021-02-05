@@ -1,9 +1,9 @@
-import { validPlayerSymbols } from "../constants/symbols";
+import { validPlayerSymbols } from "../commons/constants/symbols";
 import {
   validateInteger,
   validateFunction,
   validateString,
-} from "../utils/validators";
+} from "../commons/utils/validators";
 
 export default class Element {
   constructor(id, handleElementOnClickEvent) {
