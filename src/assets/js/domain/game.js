@@ -1,4 +1,4 @@
-import GameUi from "../ui/gameUI";
+import GameUi from "../ui/gameUi";
 import Player from "./player";
 import { sequenceOrientationEnum } from "../commons/enums/sequenceOrientationEnum";
 

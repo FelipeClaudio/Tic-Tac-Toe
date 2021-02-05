@@ -2,9 +2,13 @@ import Element from "./element";
 import GameHistoryDisplay from "./gameHistoryDisplay";
 import RestartButton from "./restartButton";
 import { sequenceOrientationEnum } from "../commons/enums/sequenceOrientationEnum";
+import { validateFunction } from "../commons/utils/validators";
 
 export default class GameUi {
   constructor(handleElementOnClickEvent, handleRestartGameEvent) {
+    validateFunction(handleElementOnClickEvent);
+    validateFunction(handleRestartGameEvent);
+
     this.gameInfo = document.createElement("div");
     this.gameInfo.classList.add("game-info");
 
