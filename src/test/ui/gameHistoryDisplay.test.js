@@ -21,6 +21,7 @@ describe("Set Game History", () => {
   ])(
     "It should set game history correctly when valid game history is provided.",
     (playerOVictories, playerXVictories, draws) => {
+      // Arrange
       const gameHistoryDisplay = new GameHistoryDisplay();
 
       const gameHistory = {
@@ -34,7 +35,7 @@ describe("Set Game History", () => {
       gameHistoryDisplay.setGameHistory(gameHistory);
       const gameHistoryDisplayHtml = gameHistoryDisplay.getHtml();
 
-      // Act & Assert
+      // Assert
       expect(gameHistoryDisplayHtml.innerHTML).toBe(expectedText);
     }
   );

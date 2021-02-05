@@ -26,7 +26,7 @@ describe("Restart button creation creation", () => {
 
 describe("On click even handling", () => {
   test("It should call passed function", () => {
-    // Arrange & Act
+    // Arrange
     const onClickHandler = jest.fn();
     const restartButton = new RestartButton(onClickHandler);
     const restartButtonHtml = restartButton.getHtml();
