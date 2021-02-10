@@ -41,6 +41,16 @@ export default class GameUi {
   drawEndGameLine = (winningCombination) => {
     const firstElement = winningCombination.sequence[0];
 
+    if (
+      !winningCombination ||
+      !winningCombination.orientation ||
+      !winningCombination.sequence
+    ) {
+      throw new TypeError(
+        "Winning combination should have a valid associated orientation and sequence."
+      );
+    }
+
     switch (winningCombination.orientation) {
       case sequenceOrientationEnum.horizontal:
         this.#createHorizontalLine(firstElement);
@@ -52,16 +62,8 @@ export default class GameUi {
         this.#createDiagonalLine(firstElement);
         break;
       default:
-        break;
+        throw new TypeError("Invalid orientation for winning game.");
     }
-  };
-
-  #createVerticalLine = (columnId) => {
-    const line = document.createElement("div");
-    line.classList.add("vertical-end-game-line");
-    line.style.left = `${(columnId - 1) * 200 + 110}px`;
-
-    this.gridContainer.appendChild(line);
   };
 
   #createHorizontalLine = (rowId) => {
@@ -71,6 +73,14 @@ export default class GameUi {
     const line = document.createElement("hr");
     line.classList.add("horizontal-end-game-line");
     line.style.top = `${(newRowId - 1) * 200 + 135}px`;
+
+    this.gridContainer.appendChild(line);
+  };
+
+  #createVerticalLine = (columnId) => {
+    const line = document.createElement("div");
+    line.classList.add("vertical-end-game-line");
+    line.style.left = `${(columnId - 1) * 200 + 110}px`;
 
     this.gridContainer.appendChild(line);
   };
@@ -92,6 +102,10 @@ export default class GameUi {
     this.gameInfo.innerHTML = text;
   };
 
+  setGameHistory = (newGameHistory) => {
+    this.gameHistoryDisplay.setGameHistory(newGameHistory);
+  };
+
   cleanGameBoard = () => {
     this.#removeSymbolFromBoard("x");
     this.#removeSymbolFromBoard("o");
@@ -100,13 +114,9 @@ export default class GameUi {
     this.#removeLineOrientationFromBoard("diagonal");
   };
 
-  setGameHistory = (newGameHistory) => {
-    this.gameHistoryDisplay.setGameHistory(newGameHistory);
-  };
-
   #removeSymbolFromBoard = (symbol) => {
     const playerSymbolClass = `player-symbol-${symbol.toLowerCase()}`;
-    console.log("playerSymbolClass: ", playerSymbolClass);
+
     const playerMarks = Array.from(
       document.getElementsByClassName(playerSymbolClass)
     );

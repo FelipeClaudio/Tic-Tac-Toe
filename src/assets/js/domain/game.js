@@ -1,6 +1,6 @@
 import GameUi from "../ui/gameUi";
 import Player from "./player";
-import { sequenceOrientationEnum } from "../commons/enums/sequenceOrientationEnum";
+import { winningCombinations } from "../commons/constants/winningCombinations";
 
 export default class Game {
   constructor() {
@@ -24,17 +24,6 @@ export default class Game {
         this.currentPlayerIndex
       ].getPlayerSymbol()}" turn`
     );
-
-    this.winningCombinations = [
-      { sequence: [1, 2, 3], orientation: sequenceOrientationEnum.horizontal },
-      { sequence: [4, 5, 6], orientation: sequenceOrientationEnum.horizontal },
-      { sequence: [7, 8, 9], orientation: sequenceOrientationEnum.horizontal },
-      { sequence: [1, 4, 7], orientation: sequenceOrientationEnum.vertical },
-      { sequence: [2, 5, 8], orientation: sequenceOrientationEnum.vertical },
-      { sequence: [3, 6, 9], orientation: sequenceOrientationEnum.vertical },
-      { sequence: [1, 5, 9], orientation: sequenceOrientationEnum.diagonal },
-      { sequence: [3, 5, 7], orientation: sequenceOrientationEnum.diagonal },
-    ];
 
     this.winnerCombination = [];
 
@@ -86,7 +75,7 @@ export default class Game {
   #verifyVictoryCondition = (markedPositions) => {
     let gameHasAWinner = false;
 
-    this.winningCombinations.forEach((combination) => {
+    winningCombinations.forEach((combination) => {
       const matchedVictoryCondition = markedPositions.filter((position) =>
         combination.sequence.includes(position)
       );
