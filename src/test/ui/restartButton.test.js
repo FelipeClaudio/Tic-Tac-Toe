@@ -1,7 +1,7 @@
 import RestartButton from "../../assets/js/ui/restartButton";
 
 describe("Restart button creation creation", () => {
-  test("It should create correct button", () => {
+  test("It should create correct button.", () => {
     // Arrange
     const restartButton = new RestartButton(jest.fn());
 
@@ -13,7 +13,7 @@ describe("Restart button creation creation", () => {
   });
 
   test.each(["abc", null, undefined, []])(
-    "it should only allow functions as parameter'.",
+    "It should only allow functions as parameter.",
     (invalidOnclickHandler) => {
       // Arrange & Act
       const act = () => new RestartButton(invalidOnclickHandler);
@@ -25,7 +25,7 @@ describe("Restart button creation creation", () => {
 });
 
 describe("On click even handling", () => {
-  test("It should call passed function", () => {
+  test("It should call passed function.", () => {
     // Arrange
     const onClickHandler = jest.fn();
     const restartButton = new RestartButton(onClickHandler);

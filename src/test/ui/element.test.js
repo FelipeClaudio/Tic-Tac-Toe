@@ -1,7 +1,7 @@
 import Element from "../../assets/js/ui/element";
 
 describe("Element creation", () => {
-  test.each([1, 2, 9])("it should create valid element.", (playerId) => {
+  test.each([1, 2, 9])("It should create valid element.", (playerId) => {
     // Arrange
     const element = new Element(playerId, jest.fn());
 
@@ -36,7 +36,7 @@ describe("Element creation", () => {
 });
 
 describe("On click even handling", () => {
-  test("It should call passed function", () => {
+  test("It should call passed function.", () => {
     // Arrange
     const onClickHandler = jest.fn();
     const element = new Element(1, onClickHandler);
@@ -51,7 +51,7 @@ describe("On click even handling", () => {
 });
 
 describe("Set player mark", () => {
-  test.each(["X", "O"])("It should set valid mark", (mark) => {
+  test.each(["X", "O"])("It should set valid mark.", (mark) => {
     // Arrange
     const onClickHandler = jest.fn();
     const element = new Element(1, onClickHandler);

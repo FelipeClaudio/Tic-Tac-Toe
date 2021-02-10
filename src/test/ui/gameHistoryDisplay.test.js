@@ -1,7 +1,7 @@
 import GameHistoryDisplay from "../../assets/js/ui/gameHistoryDisplay";
 
 describe("Game History Display creation", () => {
-  test("it should return previously set symbol.", () => {
+  test("It should return previously set symbol.", () => {
     // Arrange
     const gameHistoryDisplay = new GameHistoryDisplay();
 

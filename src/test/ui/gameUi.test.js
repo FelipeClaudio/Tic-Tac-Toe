@@ -54,3 +54,13 @@ describe("Game UI creation", () => {
     }
   );
 });
+
+describe("Draw end game line", () => {
+  test("It should not throw exception when valid arguments are provided.", () => {
+    // Arrange & Act
+    const act = () => new GameUi(jest.fn(), jest.fn());
+
+    // Assert
+    expect(act).not.toThrow(TypeError);
+  });
+});
