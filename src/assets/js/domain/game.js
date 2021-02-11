@@ -5,7 +5,7 @@ import { winningCombinations } from "../commons/constants/winningCombinations";
 export default class Game {
   constructor() {
     this.gameUi = new GameUi(
-      this.handleElementOnClickEvent,
+      this.#handleElementOnClickEvent,
       this.#handleRestartGameEvent
     );
 
@@ -43,13 +43,17 @@ export default class Game {
     const playerPositions = this.markedPositions
       .filter((p) => p.playerId === symbol)
       .map((p) => p.position);
+
     const gameHasAWinner = this.#verifyVictoryCondition(playerPositions);
     if (gameHasAWinner) {
       this.gameUi.drawEndGameLine(this.winnerCombination);
       this.gameUi.setGameInfo(`Game over! Player "${symbol}" won!`);
 
-      if (symbol === "X") this.gameHistory.playerXVictories++;
-      else this.gameHistory.playerOVictories++;
+      if (symbol === "X") {
+        this.gameHistory.playerXVictories++;
+      } else {
+        this.gameHistory.playerOVictories++;
+      }
 
       this.isGameFinished = true;
     } else if (this.round == 9) {
@@ -91,16 +95,14 @@ export default class Game {
   };
 
   #updateCurrentPlayer = () => {
-    if (this.round >= 1) {
-      this.currentPlayerIndex = Math.abs(1 - this.currentPlayerIndex);
-    }
+    this.currentPlayerIndex = Math.abs(1 - this.currentPlayerIndex);
   };
 
   #getCurrentPlayer = () => {
     return this.players[this.currentPlayerIndex];
   };
 
-  handleElementOnClickEvent = (element) => {
+  #handleElementOnClickEvent = (element) => {
     if (!this.isGameFinished) {
       const currentPlayer = this.#getCurrentPlayer();
       const symbol = currentPlayer.getPlayerSymbol();
@@ -118,6 +120,5 @@ export default class Game {
     this.isGameFinished = false;
     this.gameUi.cleanGameBoard();
     this.#updateCurrentPlayer();
-    console.log(this.gameHistory);
   };
 }

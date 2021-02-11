@@ -1,6 +1,7 @@
 import GameUi from "../../assets/js/ui/gameUi";
 import { sequenceOrientationEnum } from "../../assets/js/commons/enums/sequenceOrientationEnum";
 import { winningCombinations } from "../../assets/js/commons/constants/winningCombinations";
+import { cleanDocument, getBodyFromDocument } from "../testUtils";
 
 beforeEach(() => {
   cleanDocument();
@@ -232,16 +233,6 @@ describe("Clean game board", () => {
 });
 
 const getDefaultGameUi = () => new GameUi(jest.fn(), jest.fn());
-
-const getBodyFromDocument = () => document.childNodes[1].children[1];
-
-const cleanDocument = () => {
-  let child = document.body.firstChild;
-  while (child) {
-    document.body.removeChild(child);
-    child = document.body.firstChild;
-  }
-};
 
 function getWinningCombinationArrayByOrientation(orientation) {
   return Array.from(
