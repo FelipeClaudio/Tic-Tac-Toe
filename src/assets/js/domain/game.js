@@ -103,7 +103,7 @@ export default class Game {
   };
 
   #handleElementOnClickEvent = (element) => {
-    if (!this.isGameFinished) {
+    if (!this.isGameFinished && element.innerHTML === "") {
       const currentPlayer = this.#getCurrentPlayer();
       const symbol = currentPlayer.getPlayerSymbol();
 

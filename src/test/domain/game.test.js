@@ -173,6 +173,22 @@ describe("Game play", () => {
     }
   );
 
+  test("It should not change symbol when element is clicked twice.", () => {
+    // Arrange
+    const body = getBodyFromDocument();
+    const element = body.querySelectorAll(".game-grid")[0];
+
+    // Act
+    element.click();
+    const symbol = element.innerHTML;
+
+    element.click();
+    const newSymbol = element.innerHTML;
+
+    // Assert
+    expect(newSymbol).toBe(symbol);
+  });
+
   test("It should clean game board when restart button is pressed but must keep game history.", () => {
     // Arrange
     const body = getBodyFromDocument();
@@ -206,6 +222,8 @@ describe("Game play", () => {
     expect(oSymbolCount).toBe(0);
   });
 });
+
+// TODO: Add tests for case where player clicks twice in same element
 
 const getElementCountByClassName = (elements, firstSymbolClass) => {
   return Array.from(elements).filter((x) =>
