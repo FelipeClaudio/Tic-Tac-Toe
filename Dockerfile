@@ -6,11 +6,14 @@ WORKDIR /app
 # Install app dependencies
 COPY package.json ./
 COPY yarn.lock ./
+COPY webpack.config.js ./
+COPY babel.config.json ./
+COPY yarn.lock ./
 
 RUN yarn install --frozen-lockfile
 
 # Bundle app source
-COPY . .
+COPY src/ src/
 RUN yarn build
 
 FROM nginx:latest
