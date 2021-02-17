@@ -11,7 +11,7 @@ module.exports = {
   entry: path.resolve(__dirname, "./src/assets/js/index.js"),
   output: {
     filename: "game_final.js",
-    path: __dirname + "/public",
+    path: path.resolve(__dirname, "./public"),
   },
   devServer: {
     contentBase: "./public",
