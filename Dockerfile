@@ -12,7 +12,7 @@ COPY babel.config.json ./babel.config.json
 RUN yarn install --frozen-lockfile
 
 # Bundle app source
-COPY ./src .
+COPY . .
 RUN yarn build
 
 FROM nginx:latest
