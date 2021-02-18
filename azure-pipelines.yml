@@ -3,37 +3,68 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- main
+  - main
 
 resources:
-- repo: self
+  - repo: self
 
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'bba6c3e6-1801-4a49-aa93-d523411c6e07'
-  imageRepository: 'tictactoe'
-  containerRegistry: 'fcsstictactoe.azurecr.io'
-  dockerfilePath: '**/Dockerfile'
-  tag: '$(Build.BuildId)'
-  
+  dockerRegistryServiceConnection: "bba6c3e6-1801-4a49-aa93-d523411c6e07"
+  imageRepository: "tictactoe"
+  containerRegistry: "fcsstictactoe.azurecr.io"
+  dockerfilePath: "**/Dockerfile"
+  tag: "$(Build.BuildId)"
+
   # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+  vmImageName: "ubuntu-latest"
 
 stages:
-- stage: Build
-  displayName: Build and push stage
-  jobs:  
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
+  - stage: Build
+    displayName: Build and push stage
+    jobs:
+      - job: Test
+        steps:
+          - task: Npm@1
+            displayName: "Install dependencies"
+            inputs:
+              command: "custom"
+              workingDir: $(System.DefaultWorkingDirectory)
+              customCommand: "install"
+          - task: Npm@1
+            displayName: "Install dependencies"
+            inputs:
+              command: "custom"
+              workingDir: $(System.DefaultWorkingDirectory)
+              customCommand: "run test:ci -- --reporters=jest-junit --reporters=default --coverage --coverageReporters=cobertura"
+            continueOnError: true # Test failures should be published before failing the build
+          - task: PublishTestResults@2
+            displayName: "Publish Jest Unit Test Results"
+            inputs:
+              testResultsFiles: junit.xml
+              mergeTestResults: true
+              testRunTitle: "Jest Unit Tests"
+              failTaskOnFailedTests: true
+          - task: PublishCodeCoverageResults@1
+            displayName: "Publish code coverage from Jest tests"
+            inputs:
+              codeCoverageTool: Cobertura
+              summaryFileLocation: "$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml"
+              # reportDirectory: '$(System.DefaultWorkingDirectory)/coverage'
+              failIfCoverageEmpty: true
+      - job: Build
+        dependsOn: Test
+        condition: succeeded()
+        displayName: Build
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: Docker@2
+            displayName: Build and push an image to container registry
+            inputs:
+              command: buildAndPush
+              repository: $(imageRepository)
+              dockerfile: $(dockerfilePath)
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(tag)

@@ -145,7 +145,7 @@ describe("Game play", () => {
     */
     { array: [0, 1, 2, 3, 6, 4, 7, 5] },
   ])(
-    "It should not add more symbol after the game is finished.",
+    "It should not add more symbols after the game is finished.",
     (positionsPlayedObject) => {
       // Arrange
       const positionsPlayed = positionsPlayedObject.array;
@@ -222,8 +222,6 @@ describe("Game play", () => {
     expect(oSymbolCount).toBe(0);
   });
 });
-
-// TODO: Add tests for case where player clicks twice in same element
 
 const getElementCountByClassName = (elements, firstSymbolClass) => {
   return Array.from(elements).filter((x) =>
