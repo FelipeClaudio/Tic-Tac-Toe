@@ -1,6 +1,7 @@
 import Element from "./element";
 import GameHistoryDisplay from "./gameHistoryDisplay";
 import RestartButton from "./restartButton";
+import Footer from "./footer";
 import { sequenceOrientationEnum } from "../commons/enums/sequenceOrientationEnum";
 import { validateFunction } from "../commons/utils/validators";
 
@@ -32,10 +33,13 @@ export default class GameUi {
       draws: 0,
     });
 
+    this.footer = new Footer();
+
     document.body.appendChild(this.gameInfo);
     document.body.appendChild(this.gridContainer);
     document.body.appendChild(this.gameHistoryDisplay.getHtml());
     document.body.appendChild(this.restartGameButton.getHtml());
+    document.body.appendChild(this.footer.getHtml());
   }
 
   drawEndGameLine = (winningCombination) => {

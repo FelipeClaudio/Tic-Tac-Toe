@@ -6,11 +6,12 @@ $border-size: 5px;
 $font-family: Arial, Verdana, Geneva, Tahoma, sans-serif;
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-@import 'gameUI.scss';
-@import 'player.scss';
-@import 'element.scss';
-@import 'restartButton.scss';
-@import 'gameHistoryDisplay.scss';
+@import "gameUI.scss";
+@import "player.scss";
+@import "element.scss";
+@import "gameHistoryDisplay.scss";
+@import "restartButton.scss";
+@import "footer.scss";

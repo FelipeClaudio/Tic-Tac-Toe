@@ -1,0 +1,10 @@
+.footer {
+  font-size: 30px;
+  position: absolute;
+  top: calc(#{$restart-button-top} + 90px);
+  left: calc((#{$board-dimension-size} / 2) - 195px);
+}
+
+.footer > a {
+  color: blue;
+}

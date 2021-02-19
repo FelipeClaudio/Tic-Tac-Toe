@@ -1,12 +1,15 @@
 $button-height: 60px;
+$game-history-display-top: calc(
+  #{$board-dimension-size} + #{$top-spacing} + #{$border-size} + 10px
+);
 
 .game-history-display {
-    font-family: $font-family;
-    color: black;
-    text-align: center;
-    font-size: 30px;
-    border: 2px black solid;
-    position: absolute;
-    top: calc(#{$board-dimension-size} + #{$top-spacing} + #{$border-size} + 10px);
-    width: $board-dimension-with-margin-size;
+  font-family: $font-family;
+  color: black;
+  text-align: center;
+  font-size: 30px;
+  border: 2px black solid;
+  position: absolute;
+  top: $game-history-display-top;
+  width: $board-dimension-with-margin-size;
 }
