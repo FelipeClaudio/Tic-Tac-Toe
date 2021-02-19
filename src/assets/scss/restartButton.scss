@@ -1,23 +1,24 @@
 $button-width: 200px;
 $button-height: 60px;
+$restart-button-top: calc(#{$game-history-display-top} + 60px);
 
 .restart-button {
-    background-color:#555555; /* Green */
-    border: 2px solid black;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    position: absolute;
-    width: $button-width;
-    height: $button-height;
-    border-radius: 5px;
-    left: calc((#{$board-dimension-size} - #{$button-width}) / 2 + 15px);
-    top: calc(#{$board-dimension-size} + #{$top-spacing} + #{$border-size} + 60px)
+  background-color: #555555; /* Green */
+  border: 2px solid black;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  position: absolute;
+  width: $button-width;
+  height: $button-height;
+  border-radius: 5px;
+  left: calc((#{$board-dimension-size} - #{$button-width}) / 2 + 15px);
+  top: $restart-button-top;
 }
 
 .restart-button:hover {
-    background-color:#777777;
+  background-color: #777777;
 }
