@@ -50,7 +50,7 @@ describe("Play", () => {
     [{ opponentPlays: [1, 6], aiPlayerPlays: [2, 5], expectedPlay: 8 }],
     [{ opponentPlays: [8, 4], aiPlayerPlays: [9, 5], expectedPlay: 1 }],
   ])(
-    "It should do a game winner play whenever is possible.",
+    "It should do a game winner move whenever it is possible.",
     (playedPositions) => {
       // Arrange
       const aiPlayer = new AIPlayer("X");
@@ -64,6 +64,31 @@ describe("Play", () => {
 
       // Act & Assert
       expect(markedPosition).toBe(playedPositions.expectedPlay);
+    }
+  );
+
+  test.each([
+    [{ opponentPlays: [1], aiPlayerPlays: [2] }],
+    [{ opponentPlays: [8], aiPlayerPlays: [9] }],
+    [{ opponentPlays: [], aiPlayerPlays: [] }],
+  ])(
+    "It should do a normal move when no game winner move is available.",
+    (playedPositions) => {
+      // Arrange
+      const aiPlayer = new AIPlayer("X");
+      const gameBoard = setupBoard(
+        playedPositions.opponentPlays,
+        playedPositions.aiPlayerPlays
+      );
+
+      // Act
+      const markedPosition = aiPlayer.play(gameBoard);
+
+      // Act & Assert
+      expect(markedPosition).not.toBe(playedPositions.opponentPlays[0]);
+      expect(markedPosition).not.toBe(playedPositions.aiPlayerPlays[0]);
+      expect(markedPosition).toBeGreaterThanOrEqual(0);
+      expect(markedPosition).toBeLessThanOrEqual(9);
     }
   );
 });

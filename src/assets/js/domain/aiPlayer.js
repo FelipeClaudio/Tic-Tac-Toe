@@ -13,49 +13,91 @@ export default class AIPlayer extends Player {
 
     const aiPlays = markedPositions.filter((m) => m.playerId === this.symbol);
 
-    // If two of three element of a winningCombination is marked,
-    // it is necessary to place a mark in last position of sequence
-    const opponentWinningNextRoundCombinations = this.#GetPlayersWinningCombinationsForNextRound(
-      opponentPlays
-    );
-
     let positionToBeMarked = -1;
 
-    // It is necessary to verify if last element was not marked before.
-    if (opponentWinningNextRoundCombinations.length > 0) {
-      positionToBeMarked = opponentWinningNextRoundCombinations[0].filter(
-        (position) =>
-          opponentPlays.map((play) => play.position).indexOf(position) < 0 &&
-          aiPlays.map((play) => play.position).indexOf(position) < 0
-      )[0];
-    }
+    // Verify if it is possible to win the game with next move
+    const aiWinningNextRoundCombinations = this.#GetPossibleCombinationsForNextRound(
+      aiPlays,
+      2
+    );
 
+    positionToBeMarked = this.#getNextMove(
+      aiWinningNextRoundCombinations,
+      opponentPlays,
+      aiPlays
+    );
+
+    // If two of three element of a winningCombination is marked for opponent,
+    // it is necessary to place a mark in last position of sequence
     if (positionToBeMarked === -1) {
-      const aiWinningNextRoundCombinations = this.#GetPlayersWinningCombinationsForNextRound(
-        aiPlays
+      const opponentWinningNextRoundCombinations = this.#GetPossibleCombinationsForNextRound(
+        opponentPlays,
+        2
       );
 
-      if (aiWinningNextRoundCombinations.length > 0) {
-        positionToBeMarked = aiWinningNextRoundCombinations[0].filter(
-          (position) =>
-            opponentPlays.map((play) => play.position).indexOf(position) < 0 &&
-            aiPlays.map((play) => play.position).indexOf(position) < 0
-        )[0];
+      positionToBeMarked = this.#getNextMove(
+        opponentWinningNextRoundCombinations,
+        opponentPlays,
+        aiPlays
+      );
+    }
+
+    // If it is not possible to win game in next move for both players, selects a position to mark
+    if (positionToBeMarked === -1) {
+      const nextRoundCombinations = this.#GetPossibleCombinationsForNextRound(
+        aiPlays,
+        1
+      );
+
+      const combination = [];
+      if (nextRoundCombinations.length > 0) {
+        combination.push(
+          nextRoundCombinations[
+            Math.floor(Math.random() * nextRoundCombinations.length)
+          ]
+        );
+      } else {
+        combination.push(
+          winningCombinations.map((w) => w.sequence)[
+            Math.floor(Math.random() * nextRoundCombinations.length)
+          ]
+        );
       }
+
+      positionToBeMarked = this.#getNextMove(
+        combination,
+        opponentPlays,
+        aiPlays
+      );
     }
 
     return positionToBeMarked;
   };
 
-  #GetPlayersWinningCombinationsForNextRound = (playerPlays) => {
-    // prettier-ignore
+  #GetPossibleCombinationsForNextRound = (
+    playerPlays,
+    numberOfMarkedPositions
+  ) => {
     return winningCombinations
       .filter(
         (combination) =>
-          combination.sequence.filter(
-            (c) => playerPlays.map(
-              play => play.position)
-            .includes(c)).length === 2)
+          combination.sequence.filter((c) =>
+            playerPlays.map((play) => play.position).includes(c)
+          ).length === numberOfMarkedPositions
+      )
       .map((x) => x.sequence);
+  };
+
+  #getNextMove = (playerCombinations, opponentPlays, aiPlays) => {
+    let selectedPosition = -1;
+
+    if (playerCombinations.length > 0) {
+      selectedPosition = playerCombinations[0].filter(
+        (position) =>
+          opponentPlays.map((play) => play.position).indexOf(position) < 0 &&
+          aiPlays.map((play) => play.position).indexOf(position) < 0
+      )[0];
+    }
+    return selectedPosition;
   };
 }
