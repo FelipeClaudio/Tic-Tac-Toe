@@ -68,7 +68,8 @@ describe("Play", () => {
   );
 
   test.each([
-    [{ opponentPlays: [1], aiPlayerPlays: [2] }],
+    [{ opponentPlays: [1], aiPlayerPlays: [] }],
+    [{ opponentPlays: [1, 3], aiPlayerPlays: [2] }],
     [{ opponentPlays: [8], aiPlayerPlays: [9] }],
     [{ opponentPlays: [], aiPlayerPlays: [] }],
   ])(
@@ -85,8 +86,8 @@ describe("Play", () => {
       const markedPosition = aiPlayer.play(gameBoard);
 
       // Act & Assert
-      expect(markedPosition).not.toBe(playedPositions.opponentPlays[0]);
-      expect(markedPosition).not.toBe(playedPositions.aiPlayerPlays[0]);
+      expect(markedPosition).not.toContain(playedPositions.opponentPlays);
+      expect(markedPosition).not.toContain(playedPositions.aiPlayerPlays);
       expect(markedPosition).toBeGreaterThanOrEqual(0);
       expect(markedPosition).toBeLessThanOrEqual(9);
     }

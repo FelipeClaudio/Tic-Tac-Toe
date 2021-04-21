@@ -43,7 +43,7 @@ export default class AIPlayer extends Player {
     }
 
     // If it is not possible to win game in next move for both players, selects a position to mark
-    if (positionToBeMarked === -1) {
+    while (positionToBeMarked === -1) {
       const nextRoundCombinations = this.#GetPossibleCombinationsForNextRound(
         aiPlays,
         1
@@ -53,13 +53,13 @@ export default class AIPlayer extends Player {
       if (nextRoundCombinations.length > 0) {
         combination.push(
           nextRoundCombinations[
-            Math.floor(Math.random() * nextRoundCombinations.length)
+            Math.round(Math.random() * nextRoundCombinations.length)
           ]
         );
       } else {
         combination.push(
           winningCombinations.map((w) => w.sequence)[
-            Math.floor(Math.random() * nextRoundCombinations.length)
+            Math.round(Math.random() * nextRoundCombinations.length)
           ]
         );
       }
@@ -91,13 +91,14 @@ export default class AIPlayer extends Player {
   #getNextMove = (playerCombinations, opponentPlays, aiPlays) => {
     let selectedPosition = -1;
 
-    if (playerCombinations.length > 0) {
+    if (playerCombinations != null && playerCombinations.length > 0) {
+      console.log(playerCombinations);
       selectedPosition = playerCombinations[0].filter(
         (position) =>
           opponentPlays.map((play) => play.position).indexOf(position) < 0 &&
           aiPlays.map((play) => play.position).indexOf(position) < 0
       )[0];
     }
-    return selectedPosition;
+    return selectedPosition || -1;
   };
 }

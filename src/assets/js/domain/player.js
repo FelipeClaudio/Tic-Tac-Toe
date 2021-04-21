@@ -13,4 +13,6 @@ export default class Player {
   getPlayerSymbol = () => {
     return this.symbol;
   };
+
+  play = () => {};
 }

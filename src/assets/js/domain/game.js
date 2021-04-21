@@ -1,5 +1,6 @@
 import GameUi from "../ui/gameUi";
 import Player from "./player";
+import AIPlayer from "./aiPlayer";
 import { winningCombinations } from "../commons/constants/winningCombinations";
 
 export default class Game {
@@ -9,7 +10,7 @@ export default class Game {
       this.#handleRestartGameEvent
     );
 
-    this.players = [new Player("X"), new Player("O")];
+    this.players = [new AIPlayer("X"), new Player("O")];
 
     this.markedPositions = [];
 
@@ -19,12 +20,6 @@ export default class Game {
 
     this.currentPlayerIndex = Math.round(Math.random());
 
-    this.gameUi.setGameInfo(
-      `It is player "${this.players[
-        this.currentPlayerIndex
-      ].getPlayerSymbol()}" turn`
-    );
-
     this.winnerCombination = [];
 
     this.gameHistory = {
@@ -32,6 +27,8 @@ export default class Game {
       playerOVictories: 0,
       draws: 0,
     };
+
+    this.#setMoveIfIsAnAIPlayer();
   }
 
   #updateStatus = (symbol, position) => {
@@ -63,11 +60,8 @@ export default class Game {
       this.isGameFinished = true;
     } else {
       this.#updateCurrentPlayer();
-      this.gameUi.setGameInfo(
-        `It is player "${this.players[
-          this.currentPlayerIndex
-        ].getPlayerSymbol()}" turn`
-      );
+
+      this.#setMoveIfIsAnAIPlayer();
       this.round++;
     }
 
@@ -96,6 +90,11 @@ export default class Game {
 
   #updateCurrentPlayer = () => {
     this.currentPlayerIndex = Math.abs(1 - this.currentPlayerIndex);
+    this.gameUi.setGameInfo(
+      `It is player "${this.players[
+        this.currentPlayerIndex
+      ].getPlayerSymbol()}" turn`
+    );
   };
 
   #getCurrentPlayer = () => {
@@ -120,5 +119,17 @@ export default class Game {
     this.isGameFinished = false;
     this.gameUi.cleanGameBoard();
     this.#updateCurrentPlayer();
+  };
+
+  #setMoveIfIsAnAIPlayer = () => {
+    const currentPlayer = this.players[this.currentPlayerIndex];
+    if (currentPlayer instanceof AIPlayer) {
+      console.log("AI player turn.");
+      console.log("currentIndex: ", this.currentPlayerIndex);
+      const positionToMark = currentPlayer.play(this.markedPositions);
+      console.log("position: ", positionToMark);
+      const gameGrid = Array.from(document.querySelectorAll(".game-grid"));
+      gameGrid[positionToMark - 1].click();
+    }
   };
 }
