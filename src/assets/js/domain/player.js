@@ -14,5 +14,7 @@ export default class Player {
     return this.symbol;
   };
 
-  play = () => {};
+  // Method used by children classes.
+  // For human players, it is not necessary to do anything.
+  play(gameboard) {}
 }

@@ -7,28 +7,22 @@ export default class Game {
   constructor() {
     this.gameUi = new GameUi(
       this.#handleElementOnClickEvent,
-      this.#handleRestartGameEvent
+      this.#handleRestartGameEvent,
+      this.#handlePlayerTypeChangeEvent
     );
-
-    this.players = [new AIPlayer("X"), new Player("O")];
-
+    this.players = [new Player("O"), new Player("X")];
     this.markedPositions = [];
-
     this.isGameFinished = false;
-
     this.round = 1;
-
     this.currentPlayerIndex = Math.round(Math.random());
-
     this.winnerCombination = [];
-
     this.gameHistory = {
       playerXVictories: 0,
       playerOVictories: 0,
       draws: 0,
     };
-
-    this.#setMoveIfIsAnAIPlayer();
+    this.#updateCurrentPlayer();
+    this.#getCurrentPlayer().play(this.markedPositions);
   }
 
   #updateStatus = (symbol, position) => {
@@ -46,23 +40,18 @@ export default class Game {
       this.gameUi.drawEndGameLine(this.winnerCombination);
       this.gameUi.setGameInfo(`Game over! Player "${symbol}" won!`);
 
-      if (symbol === "X") {
-        this.gameHistory.playerXVictories++;
-      } else {
-        this.gameHistory.playerOVictories++;
-      }
+      this.#addVictoryToPlayerHistory(symbol);
 
       this.isGameFinished = true;
-    } else if (this.round == 9) {
+    } else if (this.round === 9) {
       this.gameUi.setGameInfo("Draw!");
       this.gameHistory.draws++;
 
       this.isGameFinished = true;
     } else {
-      this.#updateCurrentPlayer();
-
-      this.#setMoveIfIsAnAIPlayer();
       this.round++;
+      this.#updateCurrentPlayer();
+      this.#getCurrentPlayer().play(this.markedPositions);
     }
 
     if (this.isGameFinished) {
@@ -119,17 +108,28 @@ export default class Game {
     this.isGameFinished = false;
     this.gameUi.cleanGameBoard();
     this.#updateCurrentPlayer();
+    this.#getCurrentPlayer().play(this.markedPositions);
   };
 
-  #setMoveIfIsAnAIPlayer = () => {
-    const currentPlayer = this.players[this.currentPlayerIndex];
-    if (currentPlayer instanceof AIPlayer) {
-      console.log("AI player turn.");
-      console.log("currentIndex: ", this.currentPlayerIndex);
-      const positionToMark = currentPlayer.play(this.markedPositions);
-      console.log("position: ", positionToMark);
-      const gameGrid = Array.from(document.querySelectorAll(".game-grid"));
-      gameGrid[positionToMark - 1].click();
+  #addVictoryToPlayerHistory = (symbol) => {
+    if (symbol === "X") {
+      this.gameHistory.playerXVictories++;
+    } else {
+      this.gameHistory.playerOVictories++;
     }
+  };
+
+  #handlePlayerTypeChangeEvent = () => {
+    const secondPlayer = this.players[1];
+    this.players.pop();
+    this.players.push(
+      secondPlayer instanceof AIPlayer ? new Player("X") : new AIPlayer("X")
+    );
+
+    console.log(this.players);
+    this.gameHistory.playerXVictories = 0;
+    this.gameHistory.playerOVictories = 0;
+    this.gameHistory.draws = 0;
+    this.#handleRestartGameEvent();
   };
 }

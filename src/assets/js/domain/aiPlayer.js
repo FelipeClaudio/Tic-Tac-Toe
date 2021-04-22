@@ -6,12 +6,10 @@ export default class AIPlayer extends Player {
     super(symbol);
   }
 
-  play = (markedPositions) => {
-    const opponentPlays = markedPositions.filter(
-      (m) => m.playerId !== this.symbol
-    );
+  play(gameBoard) {
+    const opponentPlays = gameBoard.filter((m) => m.playerId !== this.symbol);
 
-    const aiPlays = markedPositions.filter((m) => m.playerId === this.symbol);
+    const aiPlays = gameBoard.filter((m) => m.playerId === this.symbol);
 
     let positionToBeMarked = -1;
 
@@ -71,8 +69,9 @@ export default class AIPlayer extends Player {
       );
     }
 
-    return positionToBeMarked;
-  };
+    const gameGrid = Array.from(document.querySelectorAll(".game-grid"));
+    gameGrid[positionToBeMarked - 1].click();
+  }
 
   #GetPossibleCombinationsForNextRound = (
     playerPlays,
@@ -91,7 +90,7 @@ export default class AIPlayer extends Player {
   #getNextMove = (playerCombinations, opponentPlays, aiPlays) => {
     let selectedPosition = -1;
 
-    if (playerCombinations != null && playerCombinations.length > 0) {
+    if (playerCombinations.length > 0 && playerCombinations[0] != null) {
       console.log(playerCombinations);
       selectedPosition = playerCombinations[0].filter(
         (position) =>
