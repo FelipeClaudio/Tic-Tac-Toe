@@ -1,6 +1,6 @@
 {
   "name": "tic-tac-toe",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "main": "game_final.js",
   "author": "Felipe Santos <felipesantos956@poli.ufjr.br>",
   "license": "MIT",
@@ -10,7 +10,8 @@
     "test": "jest",
     "test:cleanCache": "jest --clearCache",
     "test:coverage": "jest --coverage",
-    "test:ci": "npm test -- --watchAll=false"
+    "test:ci": "npm test -- --watchAll=false",
+    "heroku-prebuild": "npm install --dev"
   },
   "keywords": [],
   "devDependencies": {
