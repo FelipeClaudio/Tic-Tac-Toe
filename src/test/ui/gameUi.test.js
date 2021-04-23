@@ -1,7 +1,11 @@
-import GameUi from "../../assets/js/ui/gameUi";
+import GameUI from "../../assets/js/ui/gameUI";
 import { sequenceOrientationEnum } from "../../assets/js/commons/enums/sequenceOrientationEnum";
 import { winningCombinations } from "../../assets/js/commons/constants/winningCombinations";
-import { cleanDocument, getBodyFromDocument } from "../testUtils";
+import {
+  cleanDocument,
+  getBodyFromDocument,
+  getDefaultGameUI as getDefaultGameUI,
+} from "../testUtils";
 
 beforeEach(() => {
   cleanDocument();
@@ -10,15 +14,15 @@ beforeEach(() => {
 describe("Game UI creation", () => {
   test("it should not throw exception when valid arguments are provided.", () => {
     // Arrange & Act
-    const act = () => new GameUi(jest.fn(), jest.fn());
+    const act = () => getDefaultGameUI();
 
     // Assert
     expect(act).not.toThrow(TypeError);
   });
 
-  test("it should not throw exception when valid arguments are provided.", () => {
+  test("It should build game UI correctly.", () => {
     // Arrange & Act
-    getDefaultGameUi();
+    getDefaultGameUI();
 
     // At first, it gets contents inside html tag, then inside body tag
     const body = getBodyFromDocument();
@@ -54,7 +58,7 @@ describe("Game UI creation", () => {
     "It should throw exception when invalid arguments are provided.",
     (fn1, fn2) => {
       // Arrange & Act
-      const act = () => new GameUi(fn1, fn2);
+      const act = () => new GameUI(fn1, fn2);
 
       // Assert
       expect(act).toThrow(TypeError);
@@ -71,7 +75,7 @@ describe("Draw end game line", () => {
       // Arrange
       const className = ".horizontal-end-game-line";
 
-      const gameUi = getDefaultGameUi();
+      const gameUi = getDefaultGameUI();
       // Act
       gameUi.drawEndGameLine(winningCombination);
       const numberOfDiagonalLines = document.querySelectorAll(className).length;
@@ -89,7 +93,7 @@ describe("Draw end game line", () => {
       // Arrange
       const className = ".vertical-end-game-line";
 
-      const gameUi = getDefaultGameUi();
+      const gameUi = getDefaultGameUI();
 
       // Act
       gameUi.drawEndGameLine(winningCombination);
@@ -108,7 +112,7 @@ describe("Draw end game line", () => {
       // Arrange
       const className = ".diagonal-end-game-line";
 
-      const gameUi = getDefaultGameUi();
+      const gameUi = getDefaultGameUI();
 
       // Act
       gameUi.drawEndGameLine(winningCombination);
@@ -123,7 +127,7 @@ describe("Draw end game line", () => {
     "It should throw type error when empty winning combination is provided.",
     (winningCombination) => {
       // Arrange
-      const gameUi = getDefaultGameUi();
+      const gameUi = getDefaultGameUI();
 
       // Act
       const act = () => gameUi.drawEndGameLine(winningCombination);
@@ -137,7 +141,7 @@ describe("Draw end game line", () => {
     "It should throw type error when unknown orientation is provided.",
     (orientation) => {
       // Arrange
-      const gameUi = getDefaultGameUi();
+      const gameUi = getDefaultGameUI();
 
       // Act
       const act = () =>
@@ -155,7 +159,7 @@ describe("Draw end game line", () => {
     "It should throw type error when unknown sequence is provided.",
     (sequence) => {
       // Arrange
-      const gameUi = getDefaultGameUi();
+      const gameUi = getDefaultGameUI();
 
       // Act
       const act = () =>
@@ -173,7 +177,7 @@ describe("Draw end game line", () => {
 describe("Set game info", () => {
   test.each(["abc", 123, 35.2])("It should set text value.", (text) => {
     // Arrange
-    const gameUi = getDefaultGameUi();
+    const gameUi = getDefaultGameUI();
 
     // Act
     gameUi.setGameInfo(text);
@@ -189,7 +193,7 @@ describe("Set game info", () => {
 describe("Set game history", () => {
   test("It should set game history.", () => {
     // Arrange
-    const gameUi = getDefaultGameUi();
+    const gameUi = getDefaultGameUI();
     const newGameHistory = {
       playerOVictories: 2,
       playerXVictories: 3,
@@ -212,7 +216,7 @@ describe("Set game history", () => {
 describe("Clean game board", () => {
   test("It should clean game board.", () => {
     // Arrange
-    const gameUi = getDefaultGameUi();
+    const gameUi = getDefaultGameUI();
     gameUi.drawEndGameLine({
       orientation: sequenceOrientationEnum.horizontal,
       sequence: [1, 2, 3],
@@ -231,8 +235,6 @@ describe("Clean game board", () => {
     expect(horizontalLine).toBeUndefined();
   });
 });
-
-const getDefaultGameUi = () => new GameUi(jest.fn(), jest.fn());
 
 function getWinningCombinationArrayByOrientation(orientation) {
   return Array.from(

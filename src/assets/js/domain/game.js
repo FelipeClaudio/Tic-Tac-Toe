@@ -1,37 +1,28 @@
-import GameUi from "../ui/gameUi";
+import GameUI from "../ui/gameUI";
 import Player from "./player";
+import AIPlayer from "./aiPlayer";
 import { winningCombinations } from "../commons/constants/winningCombinations";
 
 export default class Game {
   constructor() {
-    this.gameUi = new GameUi(
+    this.gameUI = new GameUI(
       this.#handleElementOnClickEvent,
-      this.#handleRestartGameEvent
+      this.#handleRestartGameEvent,
+      this.#handlePlayerTypeChangeEvent
     );
-
-    this.players = [new Player("X"), new Player("O")];
-
+    this.players = [new Player("O"), new Player("X")];
     this.markedPositions = [];
-
     this.isGameFinished = false;
-
     this.round = 1;
-
     this.currentPlayerIndex = Math.round(Math.random());
-
-    this.gameUi.setGameInfo(
-      `It is player "${this.players[
-        this.currentPlayerIndex
-      ].getPlayerSymbol()}" turn`
-    );
-
     this.winnerCombination = [];
-
     this.gameHistory = {
       playerXVictories: 0,
       playerOVictories: 0,
       draws: 0,
     };
+    this.#updateCurrentPlayer();
+    this.#getCurrentPlayer().play(this.markedPositions);
   }
 
   #updateStatus = (symbol, position) => {
@@ -46,33 +37,25 @@ export default class Game {
 
     const gameHasAWinner = this.#verifyVictoryCondition(playerPositions);
     if (gameHasAWinner) {
-      this.gameUi.drawEndGameLine(this.winnerCombination);
-      this.gameUi.setGameInfo(`Game over! Player "${symbol}" won!`);
+      this.gameUI.drawEndGameLine(this.winnerCombination);
+      this.gameUI.setGameInfo(`Game over! Player "${symbol}" won!`);
 
-      if (symbol === "X") {
-        this.gameHistory.playerXVictories++;
-      } else {
-        this.gameHistory.playerOVictories++;
-      }
+      this.#addVictoryToPlayerHistory(symbol);
 
       this.isGameFinished = true;
-    } else if (this.round == 9) {
-      this.gameUi.setGameInfo("Draw!");
+    } else if (this.round === 9) {
+      this.gameUI.setGameInfo("Draw!");
       this.gameHistory.draws++;
 
       this.isGameFinished = true;
     } else {
-      this.#updateCurrentPlayer();
-      this.gameUi.setGameInfo(
-        `It is player "${this.players[
-          this.currentPlayerIndex
-        ].getPlayerSymbol()}" turn`
-      );
       this.round++;
+      this.#updateCurrentPlayer();
+      this.#getCurrentPlayer().play(this.markedPositions);
     }
 
     if (this.isGameFinished) {
-      this.gameUi.setGameHistory(this.gameHistory);
+      this.gameUI.setGameHistory(this.gameHistory);
     }
   };
 
@@ -96,6 +79,11 @@ export default class Game {
 
   #updateCurrentPlayer = () => {
     this.currentPlayerIndex = Math.abs(1 - this.currentPlayerIndex);
+    this.gameUI.setGameInfo(
+      `It is player "${this.players[
+        this.currentPlayerIndex
+      ].getPlayerSymbol()}" turn`
+    );
   };
 
   #getCurrentPlayer = () => {
@@ -118,7 +106,27 @@ export default class Game {
     this.markedPositions = [];
     this.round = 1;
     this.isGameFinished = false;
-    this.gameUi.cleanGameBoard();
+    this.gameUI.cleanGameBoard();
     this.#updateCurrentPlayer();
+    this.#getCurrentPlayer().play(this.markedPositions);
+  };
+
+  #addVictoryToPlayerHistory = (symbol) => {
+    symbol === "X"
+      ? this.gameHistory.playerXVictories++
+      : this.gameHistory.playerOVictories++;
+  };
+
+  #handlePlayerTypeChangeEvent = () => {
+    const secondPlayer = this.players[1];
+    this.players.pop();
+    this.players.push(
+      secondPlayer instanceof AIPlayer ? new Player("X") : new AIPlayer("X")
+    );
+
+    this.gameHistory.playerXVictories = 0;
+    this.gameHistory.playerOVictories = 0;
+    this.gameHistory.draws = 0;
+    this.#handleRestartGameEvent();
   };
 }

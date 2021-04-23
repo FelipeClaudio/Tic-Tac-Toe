@@ -13,4 +13,8 @@ export default class Player {
   getPlayerSymbol = () => {
     return this.symbol;
   };
+
+  // Method used by children classes.
+  // For human players, it is not necessary to do anything.
+  play(gameboard) {}
 }

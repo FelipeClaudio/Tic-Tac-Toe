@@ -1,14 +1,20 @@
-import Element from "./element";
+import GameGrid from "./gameGrid";
 import GameHistoryDisplay from "./gameHistoryDisplay";
 import RestartButton from "./restartButton";
 import Footer from "./footer";
 import { sequenceOrientationEnum } from "../commons/enums/sequenceOrientationEnum";
 import { validateFunction } from "../commons/utils/validators";
+import PlayerTypeSelector from "./playerTypeSelector";
 
-export default class GameUi {
-  constructor(handleElementOnClickEvent, handleRestartGameEvent) {
+export default class GameUI {
+  constructor(
+    handleElementOnClickEvent,
+    handleRestartGameEvent,
+    handlePlayerTypeChangeEvent
+  ) {
     validateFunction(handleElementOnClickEvent);
     validateFunction(handleRestartGameEvent);
+    validateFunction(handlePlayerTypeChangeEvent);
 
     this.gameInfo = document.createElement("div");
     this.gameInfo.classList.add("game-info");
@@ -19,7 +25,7 @@ export default class GameUi {
     this.handleElementOnClickEvent = handleElementOnClickEvent;
 
     for (let index = 0; index < 9; index++) {
-      const element = new Element(index + 1, this.handleElementOnClickEvent);
+      const element = new GameGrid(index + 1, this.handleElementOnClickEvent);
 
       this.gridContainer.appendChild(element.getHtml());
     }
@@ -33,12 +39,17 @@ export default class GameUi {
       draws: 0,
     });
 
+    this.playerTypeSelector = new PlayerTypeSelector(
+      handlePlayerTypeChangeEvent
+    );
+
     this.footer = new Footer();
 
     document.body.appendChild(this.gameInfo);
     document.body.appendChild(this.gridContainer);
     document.body.appendChild(this.gameHistoryDisplay.getHtml());
     document.body.appendChild(this.restartGameButton.getHtml());
+    document.body.appendChild(this.playerTypeSelector.getHtml());
     document.body.appendChild(this.footer.getHtml());
   }
 
@@ -116,6 +127,8 @@ export default class GameUi {
     this.#removeLineOrientationFromBoard("vertical");
     this.#removeLineOrientationFromBoard("horizontal");
     this.#removeLineOrientationFromBoard("diagonal");
+    // Fixes bug that changed end of board alignment.
+    this.#removeTagFromBoard("hr");
   };
 
   #removeSymbolFromBoard = (symbol) => {
@@ -135,5 +148,12 @@ export default class GameUi {
     Array.from(document.getElementsByClassName(lineClass)).forEach((x) =>
       x.classList.remove(lineClass)
     );
+  };
+
+  #removeTagFromBoard = (tagName) => {
+    const element = document.getElementsByTagName(tagName);
+    Array.from(element).forEach((child) => {
+      this.gridContainer.removeChild(child);
+    });
   };
 }
