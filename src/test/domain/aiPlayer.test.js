@@ -1,5 +1,5 @@
 import AIPlayer from "../../assets/js/domain/aiPlayer";
-import GameUI from "../../assets/js/UI/gameUI";
+import GameUI from "../../assets/js/ui/gameUI";
 import { cleanDocument } from "../testUtils";
 
 describe("Player creation", () => {
