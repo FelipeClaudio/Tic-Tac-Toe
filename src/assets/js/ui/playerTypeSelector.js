@@ -21,8 +21,6 @@ export default class PlayerTypeSelector {
     this.sliderDiv.appendChild(this.humanTypeSpan);
     this.sliderDiv.appendChild(this.aiTypeSpan);
 
-    console.log(this.upperText);
-    console.log(this.input);
     this.playerTypeSelector = document.createElement("label");
     this.playerTypeSelector.classList.add("player-type-selector");
     this.playerTypeSelector.append(this.upperText);

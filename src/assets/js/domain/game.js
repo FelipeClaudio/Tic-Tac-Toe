@@ -1,11 +1,11 @@
-import GameUi from "../ui/gameUi";
+import GameUI from "../ui/gameUI";
 import Player from "./player";
 import AIPlayer from "./aiPlayer";
 import { winningCombinations } from "../commons/constants/winningCombinations";
 
 export default class Game {
   constructor() {
-    this.gameUi = new GameUi(
+    this.gameUI = new GameUI(
       this.#handleElementOnClickEvent,
       this.#handleRestartGameEvent,
       this.#handlePlayerTypeChangeEvent
@@ -37,14 +37,14 @@ export default class Game {
 
     const gameHasAWinner = this.#verifyVictoryCondition(playerPositions);
     if (gameHasAWinner) {
-      this.gameUi.drawEndGameLine(this.winnerCombination);
-      this.gameUi.setGameInfo(`Game over! Player "${symbol}" won!`);
+      this.gameUI.drawEndGameLine(this.winnerCombination);
+      this.gameUI.setGameInfo(`Game over! Player "${symbol}" won!`);
 
       this.#addVictoryToPlayerHistory(symbol);
 
       this.isGameFinished = true;
     } else if (this.round === 9) {
-      this.gameUi.setGameInfo("Draw!");
+      this.gameUI.setGameInfo("Draw!");
       this.gameHistory.draws++;
 
       this.isGameFinished = true;
@@ -55,7 +55,7 @@ export default class Game {
     }
 
     if (this.isGameFinished) {
-      this.gameUi.setGameHistory(this.gameHistory);
+      this.gameUI.setGameHistory(this.gameHistory);
     }
   };
 
@@ -79,7 +79,7 @@ export default class Game {
 
   #updateCurrentPlayer = () => {
     this.currentPlayerIndex = Math.abs(1 - this.currentPlayerIndex);
-    this.gameUi.setGameInfo(
+    this.gameUI.setGameInfo(
       `It is player "${this.players[
         this.currentPlayerIndex
       ].getPlayerSymbol()}" turn`
@@ -106,7 +106,7 @@ export default class Game {
     this.markedPositions = [];
     this.round = 1;
     this.isGameFinished = false;
-    this.gameUi.cleanGameBoard();
+    this.gameUI.cleanGameBoard();
     this.#updateCurrentPlayer();
     this.#getCurrentPlayer().play(this.markedPositions);
   };

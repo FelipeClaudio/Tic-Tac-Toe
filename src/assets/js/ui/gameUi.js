@@ -1,4 +1,4 @@
-import Element from "./element";
+import GameGrid from "./gameGrid";
 import GameHistoryDisplay from "./gameHistoryDisplay";
 import RestartButton from "./restartButton";
 import Footer from "./footer";
@@ -6,7 +6,7 @@ import { sequenceOrientationEnum } from "../commons/enums/sequenceOrientationEnu
 import { validateFunction } from "../commons/utils/validators";
 import PlayerTypeSelector from "./playerTypeSelector";
 
-export default class GameUi {
+export default class GameUI {
   constructor(
     handleElementOnClickEvent,
     handleRestartGameEvent,
@@ -25,7 +25,7 @@ export default class GameUi {
     this.handleElementOnClickEvent = handleElementOnClickEvent;
 
     for (let index = 0; index < 9; index++) {
-      const element = new Element(index + 1, this.handleElementOnClickEvent);
+      const element = new GameGrid(index + 1, this.handleElementOnClickEvent);
 
       this.gridContainer.appendChild(element.getHtml());
     }
@@ -152,7 +152,6 @@ export default class GameUi {
 
   #removeTagFromBoard = (tagName) => {
     const element = document.getElementsByTagName(tagName);
-    console.log(element);
     Array.from(element).forEach((child) => {
       this.gridContainer.removeChild(child);
     });

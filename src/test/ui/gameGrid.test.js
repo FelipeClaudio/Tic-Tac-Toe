@@ -1,22 +1,22 @@
-import Element from "../../assets/js/ui/element";
+import GameGrid from "../../assets/js/ui/gameGrid";
 
-describe("Element creation", () => {
-  test.each([1, 2, 9])("It should create valid element.", (playerId) => {
+describe("GameGrid creation", () => {
+  test.each([1, 2, 9])("It should create valid gameGrid.", (playerId) => {
     // Arrange
-    const element = new Element(playerId, jest.fn());
+    const gameGrid = new GameGrid(playerId, jest.fn());
 
     // Act
-    const elementHtml = element.getHtml();
+    const elementHtml = gameGrid.getHtml();
 
     // Assert
     expect(elementHtml.classList).toContain("game-grid");
   });
 
   test.each([-1, 10])(
-    "It should not create element if id is not contained in [0, 9] interval.",
+    "It should not create gameGrid if id is not contained in [0, 9] interval.",
     (playerId) => {
       // Arrange & Act
-      const act = () => new Element(playerId, jest.fn());
+      const act = () => new GameGrid(playerId, jest.fn());
 
       // Assert
       expect(act).toThrow(TypeError);
@@ -24,10 +24,10 @@ describe("Element creation", () => {
   );
 
   test.each([1.2, 5.3, null, undefined, [], "abc"])(
-    "It should not create element if it is not an integer.",
+    "It should not create gameGrid if it is not an integer.",
     (playerId) => {
       // Arrange & Act
-      const act = () => new Element(playerId, jest.fn());
+      const act = () => new GameGrid(playerId, jest.fn());
 
       // Assert
       expect(act).toThrow(TypeError);
@@ -39,8 +39,8 @@ describe("On click even handling", () => {
   test("It should call passed function.", () => {
     // Arrange
     const onClickHandler = jest.fn();
-    const element = new Element(1, onClickHandler);
-    const elementHtml = element.getHtml();
+    const gameGrid = new GameGrid(1, onClickHandler);
+    const elementHtml = gameGrid.getHtml();
 
     // Act
     elementHtml.click();
@@ -54,11 +54,11 @@ describe("Set player mark", () => {
   test.each(["X", "O"])("It should set valid mark.", (mark) => {
     // Arrange
     const onClickHandler = jest.fn();
-    const element = new Element(1, onClickHandler);
+    const gameGrid = new GameGrid(1, onClickHandler);
 
     // Act
-    element.setPlayerMark(mark);
-    const elementHtml = element.getHtml();
+    gameGrid.setPlayerMark(mark);
+    const elementHtml = gameGrid.getHtml();
 
     // Assert
     expect(elementHtml.innerHTML).toBe(mark);

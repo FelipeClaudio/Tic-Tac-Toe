@@ -1,4 +1,6 @@
 import AIPlayer from "../../assets/js/domain/aiPlayer";
+import GameUI from "../../assets/js/UI/gameUI";
+import { cleanDocument, getDefaultGameUI } from "../testUtils";
 
 describe("Player creation", () => {
   test.each(["X", "O", "x", "o"])(
@@ -25,6 +27,10 @@ describe("Player creation", () => {
 });
 
 describe("Play", () => {
+  beforeEach(() => {
+    cleanDocument();
+  });
+
   test.each([
     [{ opponentPlays: [1, 2], aiPlayerPlays: [4, 8], expectedPlay: 3 }],
     [{ opponentPlays: [7, 4], aiPlayerPlays: [3, 8], expectedPlay: 1 }],
@@ -32,6 +38,7 @@ describe("Play", () => {
     "It should not allow player win when only one mark is needed.",
     (playedPositions) => {
       // Arrange
+      const handleElementOnClickMock = setDefaultUIWithMockedFunction();
       const gameBoard = setupBoard(
         playedPositions.opponentPlays,
         playedPositions.aiPlayerPlays
@@ -39,10 +46,12 @@ describe("Play", () => {
       const aiPlayer = new AIPlayer("X");
 
       // Act
-      const markedPosition = aiPlayer.play(gameBoard);
+      aiPlayer.play(gameBoard);
 
       // Act & Assert
-      expect(markedPosition).toBe(playedPositions.expectedPlay);
+      expect(Number(handleElementOnClickMock.mock.calls[0][0].id)).toBe(
+        playedPositions.expectedPlay
+      );
     }
   );
 
@@ -53,6 +62,7 @@ describe("Play", () => {
     "It should do a game winner move whenever it is possible.",
     (playedPositions) => {
       // Arrange
+      const handleElementOnClickMock = setDefaultUIWithMockedFunction();
       const aiPlayer = new AIPlayer("X");
       const gameBoard = setupBoard(
         playedPositions.opponentPlays,
@@ -60,10 +70,12 @@ describe("Play", () => {
       );
 
       // Act
-      const markedPosition = aiPlayer.play(gameBoard);
+      aiPlayer.play(gameBoard);
 
       // Act & Assert
-      expect(markedPosition).toBe(playedPositions.expectedPlay);
+      expect(Number(handleElementOnClickMock.mock.calls[0][0].id)).toBe(
+        playedPositions.expectedPlay
+      );
     }
   );
 
@@ -76,6 +88,7 @@ describe("Play", () => {
     "It should do a normal move when no game winner move is available.",
     (playedPositions) => {
       // Arrange
+      const handleElementOnClickMock = setDefaultUIWithMockedFunction();
       const aiPlayer = new AIPlayer("X");
       const gameBoard = setupBoard(
         playedPositions.opponentPlays,
@@ -83,13 +96,10 @@ describe("Play", () => {
       );
 
       // Act
-      const markedPosition = aiPlayer.play(gameBoard);
+      aiPlayer.play(gameBoard);
 
-      // Act & Assert
-      expect(markedPosition).not.toContain(playedPositions.opponentPlays);
-      expect(markedPosition).not.toContain(playedPositions.aiPlayerPlays);
-      expect(markedPosition).toBeGreaterThanOrEqual(0);
-      expect(markedPosition).toBeLessThanOrEqual(9);
+      // Assert
+      expect(handleElementOnClickMock.mock.calls.length).toBe(1);
     }
   );
 });
@@ -112,4 +122,11 @@ const setupBoard = (opponentPlays, aiPlays) => {
   });
 
   return gameBoard;
+};
+
+const setDefaultUIWithMockedFunction = () => {
+  const handleElementOnClickMock = jest.fn();
+  new GameUI(handleElementOnClickMock, jest.fn(), jest.fn());
+
+  return handleElementOnClickMock;
 };
