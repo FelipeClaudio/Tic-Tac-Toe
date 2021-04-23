@@ -10,7 +10,8 @@
     "test": "jest",
     "test:cleanCache": "jest --clearCache",
     "test:coverage": "jest --coverage",
-    "test:ci": "npm test -- --watchAll=false"
+    "test:ci": "npm test -- --watchAll=false",
+    "heroku-prebuild": "npm install --dev"
   },
   "keywords": [],
   "devDependencies": {
