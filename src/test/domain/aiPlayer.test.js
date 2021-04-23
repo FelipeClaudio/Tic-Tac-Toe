@@ -1,6 +1,6 @@
 import AIPlayer from "../../assets/js/domain/aiPlayer";
 import GameUI from "../../assets/js/UI/gameUI";
-import { cleanDocument, getDefaultGameUI } from "../testUtils";
+import { cleanDocument } from "../testUtils";
 
 describe("Player creation", () => {
   test.each(["X", "O", "x", "o"])(
