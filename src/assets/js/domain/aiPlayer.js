@@ -91,7 +91,6 @@ export default class AIPlayer extends Player {
     let selectedPosition = -1;
 
     if (playerCombinations.length > 0 && playerCombinations[0] != null) {
-      console.log(playerCombinations);
       selectedPosition = playerCombinations[0].filter(
         (position) =>
           opponentPlays.map((play) => play.position).indexOf(position) < 0 &&

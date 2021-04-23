@@ -33,9 +33,9 @@ describe("Game play", () => {
     let secondSymbolCount = 0;
 
     /*
-        | X | O | X |
-        | X | O | X |
-        | O |   |   |
+        | O | X | O |
+        | O | X | O |
+        | X |   |   |
     */
     const positionsPlayed = [0, 1, 2, 4, 3, 6, 5];
 
@@ -74,9 +74,9 @@ describe("Game play", () => {
     const body = getBodyFromDocument();
     const elements = body.querySelectorAll(".game-grid");
     /*
-        | X | O | X |
-        | X | O | X |
         | O | X | O |
+        | O | X | O |
+        | X | O | X |
     */
     const positionsPlayed = [0, 1, 2, 4, 3, 6, 5, 8, 7];
 
@@ -94,16 +94,16 @@ describe("Game play", () => {
 
   test.each([
     /*
-        | X | O | X |
-        | X | O | O |
-        | X |   |   |
+        | O | X | O |
+        | O | X | X |
+        | O |   |   |
     */
     { array: [0, 1, 2, 4, 3, 5, 6] },
 
     /*
-        | X | O | X |
-        | O | O | O |
-        | X | X |   |
+        | O | X | O |
+        | X | X | X |
+        | O | O |   |
     */
     { array: [0, 1, 2, 3, 6, 4, 7, 5] },
   ])(
@@ -132,16 +132,16 @@ describe("Game play", () => {
 
   test.each([
     /*
-        | X | O | X |
-        | X | O | O |
-        | X |   |   |
+        | O | X | O |
+        | O | X | X |
+        | O |   |   |
     */
     { array: [0, 1, 2, 4, 3, 5, 6] },
 
     /*
-        | X | O | X |
-        | O | O | O |
-        | X | X |   |
+        | O | X | O |
+        | X | X | X |
+        | O | O |   |
     */
     { array: [0, 1, 2, 3, 6, 4, 7, 5] },
   ])(

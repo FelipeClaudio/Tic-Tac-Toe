@@ -112,11 +112,9 @@ export default class Game {
   };
 
   #addVictoryToPlayerHistory = (symbol) => {
-    if (symbol === "X") {
-      this.gameHistory.playerXVictories++;
-    } else {
-      this.gameHistory.playerOVictories++;
-    }
+    symbol === "X"
+      ? this.gameHistory.playerXVictories++
+      : this.gameHistory.playerOVictories++;
   };
 
   #handlePlayerTypeChangeEvent = () => {
@@ -126,7 +124,6 @@ export default class Game {
       secondPlayer instanceof AIPlayer ? new Player("X") : new AIPlayer("X")
     );
 
-    console.log(this.players);
     this.gameHistory.playerXVictories = 0;
     this.gameHistory.playerOVictories = 0;
     this.gameHistory.draws = 0;
