@@ -1,5 +1,9 @@
+import { validateFunction } from "../commons/utils/validators";
+
 export default class PlayerTypeSelector {
   constructor(onClickEvent) {
+    validateFunction(onClickEvent);
+
     this.input = document.createElement("input");
     this.input.type = "checkbox";
 
