@@ -1,7 +1,7 @@
 import GameGrid from "../../assets/js/ui/gameGrid";
 
 describe("GameGrid creation", () => {
-  test.each([1, 2, 9])("It should create valid gameGrid.", (playerId) => {
+  test.each([1, 2, 9])("It should create valid game grid.", (playerId) => {
     // Arrange
     const gameGrid = new GameGrid(playerId, jest.fn());
 
@@ -13,7 +13,7 @@ describe("GameGrid creation", () => {
   });
 
   test.each([-1, 10])(
-    "It should not create gameGrid if id is not contained in [0, 9] interval.",
+    "It should not create game grid if id is not contained in [0, 9] interval.",
     (playerId) => {
       // Arrange & Act
       const act = () => new GameGrid(playerId, jest.fn());
@@ -24,7 +24,7 @@ describe("GameGrid creation", () => {
   );
 
   test.each([1.2, 5.3, null, undefined, [], "abc"])(
-    "It should not create gameGrid if it is not an integer.",
+    "It should not create game grid if it is not an integer.",
     (playerId) => {
       // Arrange & Act
       const act = () => new GameGrid(playerId, jest.fn());
