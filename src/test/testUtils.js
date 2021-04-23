@@ -1,3 +1,5 @@
+import GameUI from "../assets/js/ui/gameUI";
+
 const cleanDocument = () => {
   let child = document.body.firstChild;
   while (child) {
@@ -8,4 +10,6 @@ const cleanDocument = () => {
 
 const getBodyFromDocument = () => document.childNodes[1].children[1];
 
-export { cleanDocument, getBodyFromDocument };
+const getDefaultGameUI = () => new GameUI(jest.fn(), jest.fn(), jest.fn());
+
+export { cleanDocument, getBodyFromDocument, getDefaultGameUI };

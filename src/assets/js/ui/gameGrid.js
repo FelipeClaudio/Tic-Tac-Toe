@@ -5,29 +5,29 @@ import {
   validateString,
 } from "../commons/utils/validators";
 
-export default class Element {
+export default class GameGrid {
   constructor(id, handleElementOnClickEvent) {
     validateInteger(id, 0, 9);
     validateFunction(handleElementOnClickEvent);
 
-    this.element = document.createElement("div");
-    this.element.classList.add("game-grid");
-    this.element.id = id;
-    this.element.onclick = this.onClickEvent;
+    this.gameGrid = document.createElement("div");
+    this.gameGrid.classList.add("game-grid");
+    this.gameGrid.id = id;
+    this.gameGrid.onclick = this.onClickEvent;
     this.handleElementOnClickEvent = handleElementOnClickEvent;
   }
 
   getHtml = () => {
-    return this.element;
+    return this.gameGrid;
   };
 
   setPlayerMark = (mark) => {
     validateString(mark, validPlayerSymbols, true);
 
-    this.element.innerHTML = mark;
+    this.gameGrid.innerHTML = mark;
   };
 
   onClickEvent = () => {
-    this.handleElementOnClickEvent(this.element);
+    this.handleElementOnClickEvent(this.gameGrid);
   };
 }
