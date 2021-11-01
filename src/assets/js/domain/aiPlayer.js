@@ -13,25 +13,23 @@ export default class AIPlayer extends Player {
 
     let positionToBeMarked = -1;
 
-    // Verify if it is possible to win the game with next move
-    const aiWinningNextRoundCombinations = this.#GetPossibleCombinationsForNextRound(
-      aiPlays,
-      2
-    );
+    // Verify if it is possible to win the game with next move.
+    const aiWinningNextRoundCombinations =
+      this.#GetPossibleCombinationsForNextRound(aiPlays, 2);
 
+    // If it is not possible to win the game with current move,
+    // the function below will return -1.
     positionToBeMarked = this.#getNextMove(
       aiWinningNextRoundCombinations,
       opponentPlays,
       aiPlays
     );
 
-    // If two of three element of a winningCombination is marked for opponent,
-    // it is necessary to place a mark in last position of sequence
+    // If two of three element of a winningCombination are marked for opponent,
+    // it is necessary to place a mark in the last position need to opponent win the game.
     if (positionToBeMarked === -1) {
-      const opponentWinningNextRoundCombinations = this.#GetPossibleCombinationsForNextRound(
-        opponentPlays,
-        2
-      );
+      const opponentWinningNextRoundCombinations =
+        this.#GetPossibleCombinationsForNextRound(opponentPlays, 2);
 
       positionToBeMarked = this.#getNextMove(
         opponentWinningNextRoundCombinations,
@@ -90,6 +88,7 @@ export default class AIPlayer extends Player {
   #getNextMove = (playerCombinations, opponentPlays, aiPlays) => {
     let selectedPosition = -1;
 
+    // Selects the first valid position not played by player and AI.
     if (playerCombinations.length > 0 && playerCombinations[0] != null) {
       selectedPosition = playerCombinations[0].filter(
         (position) =>
@@ -97,6 +96,8 @@ export default class AIPlayer extends Player {
           aiPlays.map((play) => play.position).indexOf(position) < 0
       )[0];
     }
+
+    // Returns -1 if it was not possible to select a position to play.
     return selectedPosition || -1;
   };
 }
